@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set("views", "./views");
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
 
 app.get("/", async (req, res) => {
   res.render("index");
@@ -31,7 +31,7 @@ app.post("/", (req, res) => {
     bmr = 9.247 * weight + 3.098 * height - 4.33 * age + 447.593;
   }
 
-  res.send(`your BMR is ${bmr}`);
+  res.render("calories", { gender: gender, age: age, weight: weight, height: height, bmr: bmr });
 });
 
 app.get("/test", async (req, res) => {
