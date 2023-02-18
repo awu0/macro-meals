@@ -2,12 +2,15 @@ require("dotenv").config();
 
 const express = require("express");
 const axios = require("axios");
+const apis = require("./apis");
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(__dirname + "/public"));
 
 app.set("views", "./views");
 app.set("view engine", "ejs");
@@ -16,7 +19,7 @@ app.get("/", async (req, res) => {
   res.render("index");
 });
 
-app.post("/", (req, res) => {
+app.post("/", async (req, res) => {
   const { gender } = req.body;
 
   const age = parseInt(req.body.age);
@@ -31,28 +34,24 @@ app.post("/", (req, res) => {
     bmr = 9.247 * weight + 3.098 * height - 4.33 * age + 447.593;
   }
 
-  res.render("calories", { gender: gender, age: age, weight: weight, height: height, bmr: bmr });
+  const data = await apis.callAPI("mcdonalds");
+
+  const foods = data.hits;
+
+  res.render("calories", {
+    gender,
+    age,
+    weight,
+    height,
+    bmr,
+    foods: foods ? foods : {},
+  });
 });
 
 app.get("/test", async (req, res) => {
-  const response = await callAPI();
+  const response = await apis.callAPI("chipotle");
   res.send(response);
 });
-
-async function callAPI() {
-  const appId = process.env.appId;
-  const appKey = process.env.appKey;
-
-  try {
-    const response = await axios.get(
-      `https://api.nutritionix.com/v1_1/search/subway?results=0:20&fields=item_name,brand_name,item_id,nf_calories&appId=${appId}&appKey=${appKey}`
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-}
 
 app.listen(PORT, () => {
   console.log(`server running on PORT ${PORT}`);

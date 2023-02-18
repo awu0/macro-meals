@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/styles.css" />
     <title>Your calories</title>
   </head>
   <body>
@@ -16,5 +17,35 @@
     <br />
 
     <div>Calories left: <%= bmr %></div>
+
+    <div>
+      <h3>Here are some options from McDonalds:</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Calories</th>
+            <th>Fat</th>
+            <th>Carbohydrates</th>
+            <th>Protein</th>
+            <th>Sugar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0; i < foods.length; i++) { %>
+          <tr>
+            <td><%= foods[i].fields.item_name %></td>
+            <td><%= foods[i].fields.nf_calories %></td>
+            <td><%= foods[i].fields.nf_total_fat %></td>
+            <td><%= foods[i].fields.nf_total_carbohydrate %></td>
+            <td><%= foods[i].fields.nf_protein %></td>
+            <td><%= foods[i].fields.nf_sugars %></td>
+          </tr>
+          <% } %>
+        </tbody>
+
+        <tbody></tbody>
+      </table>
+    </div>
   </body>
 </html>
