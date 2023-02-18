@@ -1,0 +1,24 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Hi
+h1 My Food
+form(action='' method='post')
+  div
+    span Gender:
+    input#gender-male(type='radio' value='male' name='gender' required='')
+    label(for='gender-male') Male
+    input#gender-male(type='radio' value='female' name='gender' required='')
+    label(for='gender-female') Female
+  div
+    label(for='age-num') Enter Age:
+    input#age-num(type='number' name='age' required='')
+  div
+    label(for='height') Enter Height (inches):
+    input#height(type='height' name='height' required='')
+  div
+    label(for='weight') Enter Weight (pounds):
+    input#weight(type='weight' name='weight' required='')
+  input(type='submit')
