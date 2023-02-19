@@ -13,10 +13,6 @@ async function callAPI(query, from_calories = 0, to_calories = 99999) {
   const appKey = process.env.appKey;
 
   try {
-    // const response = await axios.get(
-    //   `https://api.nutritionix.com/v1_1/search/${search}?results=0:50&fields=item_name,brand_name,item_id,nf_calories,nf_total_fat,nf_total_carbohydrate,nf_protein,nf_sugars&appId=${appId}&appKey=${appKey}`
-    // );
-
     let postData = {
       appId: appId,
       appKey: appKey,
