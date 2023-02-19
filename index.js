@@ -20,21 +20,22 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-  const { gender } = req.body;
+  const { gender, query } = req.body;
 
   const age = parseInt(req.body.age);
   const weight = parseInt(req.body.weight);
   const height = parseInt(req.body.height);
 
-  // basal metabolic rate (bmr) is average energy expended per day
-  let bmr;
+  // calories is calculated using basal metabolic rate (bmr), or average energy expended per day
+  // the formula used is Revised Harris-Benedict Equation
+  let calories;
   if (gender == "male") {
-    bmr = 13.397 * weight + 4.799 * height - 5.677 * age + 88.362;
+    calories = 13.397 * weight + 4.799 * height - 5.677 * age + 88.362;
   } else {
-    bmr = 9.247 * weight + 3.098 * height - 4.33 * age + 447.593;
+    calories = 9.247 * weight + 3.098 * height - 4.33 * age + 447.593;
   }
 
-  const data = await apis.callAPI("mcdonalds");
+  const data = await apis.callAPI(query, 0, calories + 100);
 
   const foods = data.hits;
 
@@ -43,13 +44,14 @@ app.post("/", async (req, res) => {
     age,
     weight,
     height,
-    bmr,
+    calories,
+    query,
     foods: foods ? foods : {},
   });
 });
 
 app.get("/test", async (req, res) => {
-  const response = await apis.callAPI("chipotle");
+  const response = await apis.callAPI("chipotle", 1000, 100000);
   res.send(response);
 });
 

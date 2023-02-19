@@ -4,9 +4,11 @@ const axios = require("axios");
  * Calls the Nutritionix API for data on foods
  *
  * @param {*} query a generic search term, leave blank to include all items
+ * @param {*} from_calories
+ * @param {*} to_calories
  * @returns
  */
-async function callAPI(query) {
+async function callAPI(query, from_calories = 0, to_calories = 99999) {
   const appId = process.env.appId;
   const appKey = process.env.appKey;
 
@@ -15,10 +17,9 @@ async function callAPI(query) {
     //   `https://api.nutritionix.com/v1_1/search/${search}?results=0:50&fields=item_name,brand_name,item_id,nf_calories,nf_total_fat,nf_total_carbohydrate,nf_protein,nf_sugars&appId=${appId}&appKey=${appKey}`
     // );
 
-    const response = await axios.post("https://api.nutritionix.com/v1_1/search", {
+    let postData = {
       appId: appId,
       appKey: appKey,
-      query,
       fields: [
         "item_name",
         "brand_name",
@@ -37,11 +38,17 @@ async function callAPI(query) {
       },
       filters: {
         nf_calories: {
-          from: 1000,
-          to: 10000,
+          from: from_calories,
+          to: to_calories,
         },
       },
-    });
+    };
+
+    if (query != "") {
+      postData["query"] = query;
+    }
+
+    const response = await axios.post("https://api.nutritionix.com/v1_1/search", postData);
 
     return response.data;
   } catch (error) {
