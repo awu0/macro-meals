@@ -21,6 +21,7 @@
       crossorigin="anonymous"
     ></script>
     <div>
+      <h3 class="macromeals d-flex justify-content-center display-4">MacroMeals</h3>
       <div class="gender d-flex justify-content-center">Gender: <%= gender %></div>
       <div class="age d-flex justify-content-center">Age: <%= age %></div>
       <div class="height d-flex justify-content-center">Height: <%= height %></div>
@@ -28,7 +29,7 @@
     </div>
     <br />
 
-    <div class="cal d-flex justify-content-center display-4 font-weight-bolder">Calories Left: <span id="calories-left"><%= calories %></span></div>
+    <div class="cal d-flex justify-content-center display-6 font-weight-bolder">Calories Left:&nbsp;<span id="calories-left"><%= calories.toFixed(2) %></span></div>
     <h4 class="list font-monospace">Your List of Items:</h4>
 
     <table class="table table-bordered border-3">
@@ -130,7 +131,7 @@
 
       function updateScreen() {
         let caloriesLeftElem = document.getElementById('calories-left')
-        caloriesLeftElem.textContent = caloriesLeft - caloriesAdded
+        caloriesLeftElem.textContent = (caloriesLeft - caloriesAdded).toFixed(2)
       }
     </script>
   </body>
